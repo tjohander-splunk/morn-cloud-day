@@ -4,7 +4,7 @@ import os
 import uuid
 import random
 from datetime import datetime
-# from opentelemetry import trace
+from opentelemetry import trace
 
 
 def lambda_handler(event, context):
@@ -19,10 +19,10 @@ def lambda_handler(event, context):
     rankings_file = s3.get_object(Bucket=os.environ['BUCKET_NAME'], Key='rankings.txt')
     stock_ranking = rankings_file['Body'].read().decode('utf-8').split(' ')
 
-    # customizedSpan = trace.get_current_span()
-    # customizedSpan.set_attribute("alpaca.id", alpaca_id);
-    # customizedSpan.set_attribute("alpaca.secret", alpaca_secret);
-    # customizedSpan.set_attribute("rankings", str(stock_ranking));
+    customizedSpan = trace.get_current_span()
+    customizedSpan.set_attribute("alpaca.id", alpaca_id);
+    customizedSpan.set_attribute("alpaca.secret", alpaca_secret);
+    customizedSpan.set_attribute("rankings", str(stock_ranking));
 
     for i in range(3):
         buy_response = requests.post('https://paper-api.alpaca.markets/v2/orders', headers=headers,

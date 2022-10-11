@@ -3,7 +3,7 @@ import pandas as pd
 import boto3
 import time
 import os
-# from opentelemetry import trace
+from opentelemetry import trace
 
 
 def calc_price_change(ticker):
@@ -50,9 +50,9 @@ def lambda_handler(event, context):
     df = df.reset_index(drop=True)
     stock_ranking = df['ticker'].tolist()
 
-    # customized_span = trace.get_current_span()
-    # customized_span.set_attribute("watchlist", str(watchlist))
-    # customized_span.set_attribute("rankings", str(stock_ranking))
+    customized_span = trace.get_current_span()
+    customized_span.set_attribute("watchlist", str(watchlist))
+    customized_span.set_attribute("rankings", str(stock_ranking))
 
     # Write the sorted list to S3
     encoded_string = ' '.join(stock_ranking).encode('utf-8')

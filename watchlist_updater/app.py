@@ -2,8 +2,7 @@ import json
 import requests
 import boto3
 import os
-
-# from opentelemetry import trace
+from opentelemetry import trace
 
 
 def lambda_handler(event, context):

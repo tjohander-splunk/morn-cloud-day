@@ -1,16 +1,16 @@
 import json
 import requests
 import os
-# from opentelemetry import trace
+from opentelemetry import trace
 
 
 def lambda_handler(event, context):
     ticker = event['symbol']
     finnhub_token = os.environ['FINNHUB_TOKEN']
 
-    # customizedSpan = trace.get_current_span()
-    # customizedSpan.set_attribute("symbol", ticker);
-    # customizedSpan.set_attribute("finnhub.token", finnhub_token);
+    customizedSpan = trace.get_current_span()
+    customizedSpan.set_attribute("symbol", ticker)
+    customizedSpan.set_attribute("finnhub.token", finnhub_token)
 
     output = {}
     output['ticker'] = ticker
