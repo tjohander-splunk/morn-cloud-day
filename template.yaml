@@ -37,6 +37,19 @@ Parameters:
   EC2KeyPairName:
     Type: String
     Description: The name of the SSH key authorized to access the EC2 Instance
+  SplunkAccessToken:
+    Type: String
+    Default: splunk-token
+  Realm:
+    Type: String
+    Default: realm
+  DeploymentEnvironment:
+    Type: String
+    Description: OpenTelemetry deployment.environment tag value
+    Default: lambda-devlab
+  SplunkOtelLayer:
+    Type: String
+    Default: arn:aws:lambda:us-east-1:254067382080:layer:splunk-apm:62
 
 Resources:
   # My Functions
@@ -68,6 +81,7 @@ Resources:
             Method: get
       Layers:
         - !Ref Libs
+        - !Ref SplunkOtelLayer
   StockRankerFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -78,10 +92,19 @@ Resources:
       Runtime: python3.8
       Environment:
         Variables:
+          SPLUNK_ACCESS_TOKEN: !Ref SplunkAccessToken
+          OTEL_SERVICE_NAME: stockRankerFunction
           AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
           BUCKET_NAME: !Ref BucketName
           ALPACA_ID: !Ref AlapcaId
           ALPACA_SECRET: !Ref AlpacaSecret
+          OTEL_RESOURCE_ATTRIBUTES: !Sub
+            - 'deployment.environment=${DeploymentEnvironment}'
+            - DeploymentEnvironment: !Ref DeploymentEnvironment
+          OTEL_EXPORTER_OTLP_ENDPOINT: !Sub
+            - 'http://${OtelCollectorPrivateDnsName}:4318'
+            - OtelCollectorPrivateDnsName: !GetAtt OtelCollectorEc2.PrivateDnsName
+          OTEL_TRACES_EXPORTER: otlp_proto_http
           GET_FIN_FUNC_NAME: GetFinancials
       Architectures:
         - x86_64
@@ -98,6 +121,7 @@ Resources:
             Method: get
       Layers:
         - !Ref Libs
+        - !Ref SplunkOtelLayer
   GetFinancialsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -110,8 +134,18 @@ Resources:
         - x86_64
       Environment:
         Variables:
+          SPLUNK_ACCESS_TOKEN: !Ref SplunkAccessToken
+          OTEL_SERVICE_NAME: getFinancials
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
           ALPACA_ID: !Ref AlapcaId
           ALPACA_SECRET: !Ref AlpacaSecret
+          OTEL_RESOURCE_ATTRIBUTES: !Sub
+            - 'deployment.environment=${DeploymentEnvironment}'
+            - DeploymentEnvironment: !Ref DeploymentEnvironment
+          OTEL_EXPORTER_OTLP_ENDPOINT: !Sub
+            - 'http://${OtelCollectorPrivateDnsName}:4318'
+            - OtelCollectorPrivateDnsName: !GetAtt OtelCollectorEc2.PrivateDnsName
+          OTEL_TRACES_EXPORTER: otlp_proto_httpnt
           BUCKET_NAME: !Ref BucketName
           FINNHUB_TOKEN: !Ref FinnhubToken
       Events:
@@ -127,6 +161,7 @@ Resources:
           - !GetAtt PrivateSubnet1.SubnetId
       Layers:
         - !Ref Libs
+        - !Ref SplunkOtelLayer
   BuyStocksFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -139,6 +174,12 @@ Resources:
         - x86_64
       Environment:
         Variables:
+          SPLUNK_ACCESS_TOKEN: !Ref SplunkAccessToken
+          SPLUNK_REALM: !Ref Realm
+          OTEL_SERVICE_NAME: buyStocks
+          OTEL_RESOURCE_ATTRIBUTES: !Sub
+            - 'deployment.environment=${DeploymentEnvironment}'
+            - DeploymentEnvironment: !Ref DeploymentEnvironment
           AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
           BUCKET_NAME: !Ref BucketName
           ALPACA_ID: !Ref AlapcaId
@@ -156,6 +197,7 @@ Resources:
             Method: get
       Layers:
         - !Ref Libs
+        - !Ref SplunkOtelLayer
   Libs:
     Type: AWS::Serverless::LayerVersion
     Properties:
@@ -243,6 +285,27 @@ Resources:
       IpProtocol: tcp
       FromPort: 0
       ToPort: 65535
+  OtelCollectorEc2:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Ref EC2AvailabilityZone
+      InstanceType: !Ref EC2InstanceType
+      ImageId: !Ref EC2Ami
+      KeyName: !Ref EC2KeyPairName
+      SubnetId: !GetAtt PublicSubnet1.SubnetId
+      SecurityGroupIds:
+        - !GetAtt VPC.DefaultSecurityGroup
+      Tags:
+        - Key: Name
+          Value: OpenTelemetry-Collector
+      UserData:
+        Fn::Base64: !Sub
+          - |
+            #!/bin/bash
+            curl -sSL https://dl.signalfx.com/splunk-otel-collector.sh > /tmp/splunk-otel-collector.sh && \
+            sh /tmp/splunk-otel-collector.sh --realm ${SplunkRealm} -- ${SplunkAccessToken} --mode gateway --without-fluentd
+          - SplunkRealm: !Ref Realm
+            SplunkAccessToken: !Ref SplunkAccessToken
   PublicSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
