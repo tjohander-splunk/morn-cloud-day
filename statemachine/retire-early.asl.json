@@ -1,0 +1,86 @@
+{
+  "Comment": "A state machine that does mock stock trading.",
+  "StartAt": "Update My Watchlist",
+  "States": {
+    "Update My Watchlist": {
+      "Type": "Task",
+      "Resource": "${WatchListUpdaterFunctionArn}",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 5,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Next": "Rank My Stocks"
+    },
+    "Rank My Stocks": {
+      "Type": "Task",
+      "Resource": "${StockRankerFunctionArn}",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 5,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Next": "Buy Stock"
+    },
+    "Buy Stock": {
+      "Type": "Task",
+      "Resource": "${BuyStocksFunctionArn}",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 1
+        }
+      ],
+      "Next": "Record Transaction"
+    },
+    "Record Transaction": {
+      "Type": "Task",
+      "Resource": "${DDBPutItem}",
+      "Parameters": {
+        "TableName": "${DDBTable}",
+        "Item": {
+          "Id": {
+            "S.$": "$.id"
+          },
+          "Type": {
+            "S.$": "$.type"
+          },
+          "Price": {
+            "N.$": "$.price"
+          },
+          "Quantity": {
+            "N.$": "$.qty"
+          },
+          "Timestamp": {
+            "S.$": "$.timestamp"
+          }
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 20,
+          "MaxAttempts": 5,
+          "BackoffRate": 10
+        }
+      ],
+      "End": true
+    }
+  }
+}
