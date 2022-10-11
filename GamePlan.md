@@ -11,16 +11,11 @@
            11. Integration
          12. ... others??
       5. Deploy it
-      6. Init Step Function
-      7. Explore Folder Structure
-         8. Lambda Code
-         9. Tests
-            10. Unit
-            11. Integration
-         12. `samconfig.toml`
-             13. Can supply Param values in here and never run `--guided` again
-      8. Deploy It
-      9. (AWS Console) Show it
+         12. Walkthough of `sam deploy --guided`
+         13. Review of deploy config file `samconfig.toml`
+           1. Can supply Param values in here and never run `--guided` again
+         14. Watch the deployment go down in real-time.
+         9. (AWS Console) Show it
    6. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
       7. Explore Folder Structure
          8. Added in a unit test

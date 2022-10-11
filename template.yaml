@@ -22,21 +22,6 @@ Parameters:
   FinnhubToken:
     Type: String
     Default: finnhubtoken
-  EC2Ami:
-    Type: String
-    Description: The AMI to use for the Otel Collector Gateway Instance Host
-    Default: 'ami-026b57f3c383c2eec'
-  EC2InstanceType:
-    Type: String
-    Description: The Instance Type for the Otel Collector Gateway Instance Host
-    Default: 't2.micro'
-  EC2AvailabilityZone:
-    Type: String
-    Description: The Availability Zone to use for the Otel Collector Gateway Instance Host
-    Default: 'us-east-1b'
-  EC2KeyPairName:
-    Type: String
-    Description: The name of the SSH key authorized to access the EC2 Instance
 
 Resources:
   # My Functions
