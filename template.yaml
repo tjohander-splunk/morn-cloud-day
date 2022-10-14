@@ -40,11 +40,6 @@ Resources:
           BUCKET_NAME: !Ref BucketName
           ALPACA_ID: !Ref AlapcaId
           ALPACA_SECRET: !Ref AlpacaSecret
-      VpcConfig:
-        SecurityGroupIds:
-          - !GetAtt VPC.DefaultSecurityGroup
-        SubnetIds:
-          - !GetAtt PrivateSubnet1.SubnetId
       Events:
         WatchListUpdater:
           Type: Api
@@ -70,11 +65,6 @@ Resources:
           GET_FIN_FUNC_NAME: GetFinancials
       Architectures:
         - x86_64
-      VpcConfig:
-        SecurityGroupIds:
-          - !GetAtt VPC.DefaultSecurityGroup
-        SubnetIds:
-          - !GetAtt PrivateSubnet1.SubnetId
       Events:
         StockRankerEvent:
           Type: Api
@@ -105,11 +95,6 @@ Resources:
           Properties:
             Path: /getfinancials
             Method: get
-      VpcConfig:
-        SecurityGroupIds:
-          - !GetAtt VPC.DefaultSecurityGroup
-        SubnetIds:
-          - !GetAtt PrivateSubnet1.SubnetId
       Layers:
         - !Ref Libs
   BuyStocksFunction:
@@ -128,11 +113,6 @@ Resources:
           BUCKET_NAME: !Ref BucketName
           ALPACA_ID: !Ref AlapcaId
           ALPACA_SECRET: !Ref AlpacaSecret
-      VpcConfig:
-        SecurityGroupIds:
-          - !GetAtt VPC.DefaultSecurityGroup
-        SubnetIds:
-          - !GetAtt PrivateSubnet1.SubnetId
       Events:
         BuyStocksEvent:
           Type: Api
@@ -199,7 +179,6 @@ Resources:
             Enabled: False # This schedule is disabled by default to avoid incurring charges.
             Schedule: "rate(1 minute)"
       Role: !GetAtt LambdaRole.Arn
-
   TransactionTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
     Properties:
@@ -209,137 +188,6 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-
-
-  # My VPC
-  VPC:
-    Type: 'AWS::EC2::VPC'
-    Properties:
-      CidrBlock: 10.0.0.0/16
-      EnableDnsHostnames: true
-      InstanceTenancy: default
-      EnableDnsSupport: true
-      Tags:
-        - Key: Name
-          Value: !Ref 'AWS::StackName'
-  InboundRule:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !GetAtt VPC.DefaultSecurityGroup
-      CidrIp: '0.0.0.0/0'
-      IpProtocol: tcp
-      FromPort: 0
-      ToPort: 65535
-  PublicSubnet1:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref VPC
-      AvailabilityZone: us-east-1b
-      CidrBlock: '10.0.1.0/24'
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: Public subnet 1
-  PublicSubnetRouteTable:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref 'VPC'
-      Tags:
-        - Key: Name
-          Value: Public Subnet
-        - Key: Network
-          Value: Public
-  PublicSubnetRoute:
-    DependsOn: VPCGatewayAttachment
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref 'PublicSubnetRouteTable'
-      DestinationCidrBlock: '0.0.0.0/0'
-      GatewayId: !Ref 'InternetGateway'
-  PublicSubnet1RouteTableAssociation:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref 'PublicSubnet1'
-      RouteTableId: !Ref 'PublicSubnetRouteTable'
-  PrivateSubnet1:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref 'VPC'
-      CidrBlock: '10.0.192.0/21'
-      AvailabilityZone: us-east-1b
-      Tags:
-        - Key: Name
-          Value: Private subnet 1
-  PrivateSubnetRouteTable:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref 'VPC'
-      Tags:
-        - Key: Name
-          Value: Private Subnet
-        - Key: Network
-          Value: Private
-  PrivateSubnetRoute:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref 'PrivateSubnetRouteTable'
-      DestinationCidrBlock: '0.0.0.0/0'
-      NatGatewayId: !Ref 'NATGateway1'
-  PrivateSubnet1RouteTableAssociation:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref 'PrivateSubnet1'
-      RouteTableId: !Ref 'PrivateSubnetRouteTable'
-  VPCGatewayAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId: !Ref 'VPC'
-      InternetGatewayId: !Ref 'InternetGateway'
-  NAT1EIP:
-    DependsOn: VPCGatewayAttachment
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-      Tags:
-        - Key: Name
-          Value: NAT1EIP
-  NATGateway1:
-    DependsOn: VPCGatewayAttachment
-    Type: AWS::EC2::NatGateway
-    Properties:
-      AllocationId: !GetAtt 'NAT1EIP.AllocationId'
-      SubnetId: !Ref 'PublicSubnet1'
-      Tags:
-        - Key: Name
-          Value: NATGateway1
-  InternetGateway:
-    Type: 'AWS::EC2::InternetGateway'
-    DependsOn: VPC
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Ref 'AWS::StackName'
-  InternetGatewayAttachment:
-    Type: 'AWS::EC2::VPCGatewayAttachment'
-    DependsOn: InternetGateway
-    Properties:
-      VpcId: !Ref VPC
-      InternetGatewayId: !Ref InternetGateway
-  InternetRouteTable:
-    Type: 'AWS::EC2::RouteTable'
-    DependsOn: VPC
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: Public Route Table
-  InternetRoute:
-    Type: 'AWS::EC2::Route'
-    DependsOn: InternetGatewayAttachment
-    Properties:
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-      RouteTableId: !Ref InternetRouteTable
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
