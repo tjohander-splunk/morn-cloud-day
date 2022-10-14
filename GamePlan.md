@@ -14,7 +14,7 @@
          12. Walkthough of `sam deploy --guided`
          13. Review of deploy config file `samconfig.toml`
            1. Can supply Param values in here and never run `--guided` again
-         14. Watch the deployment go down in real-time.
+         14. Watch the deployment go down in real-time. (TAKES ~ 3:30)
          9. (AWS Console) Show it
    6. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
       7. Explore Folder Structure
@@ -23,10 +23,9 @@
          10. Added in a Step Function ASL definition as our mechanism to exercise the application for us
          11. Can provide an answer file
       8. Highlight the non-trivial amount of AWS infra that this application relies on
-      8. Deploy it
-      9. Now we wait....... (~12-15 minutes)
-   7.  Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
-2. (Slide Deck) What is OpenTelemetry
+      8. Deploy it ((TAKES ~ 3:30))
+      7.  Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
+2. (Slide Deck) What is OpenTelemetry (I SORTA THINK I SHOULD JUST CHECKOUT AND DEPLOUY THE CODE FOR STAGE 2 AT THIS POIUNT)
    1. Why is it important
       1. Distributed Tracing
       1. Open Standards
