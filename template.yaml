@@ -162,7 +162,9 @@ Resources:
   LambdaRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: stockTraderLambdaRole
+      RoleName: !Sub
+        - 'stockTraderLambdaRole-${stackName}'
+        - stackName: !Ref AWS::StackName
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
