@@ -198,5 +198,11 @@ Outputs:
     Description: "Watchlist Updater Function ARN"
     Value: !GetAtt WatchListUpdaterFunction.Arn
   StockRankerFunctionArn:
-    Description: "Stock Ranker FunctionARN"
+    Description: "Stock Ranker Function ARN"
     Value: !GetAtt StockRankerFunction.Arn
+  GetFinancialsFunctionArn:
+    Description: "Get Financials Function ARN"
+    Value: !GetAtt GetFinancialsFunction.Arn
+  BuyStocksFunctionArn:
+    Description: "Buy Stocks Function ARN"
+    Value: !GetAtt BuyStocksFunction.Arn
