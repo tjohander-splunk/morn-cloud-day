@@ -428,5 +428,19 @@ Outputs:
     Description: "Watchlist Updater Function ARN"
     Value: !GetAtt WatchListUpdaterFunction.Arn
   StockRankerFunctionArn:
-    Description: "Stock Ranker FunctionARN"
+    Description: "Stock Ranker Function ARN"
     Value: !GetAtt StockRankerFunction.Arn
+  GetFinancialsFunctionArn:
+    Description: "Get Financials Function ARN"
+    Value: !GetAtt GetFinancialsFunction.Arn
+  BuyStocksFunctionArn:
+    Description: "Buy Stocks Function ARN"
+    Value: !GetAtt BuyStocksFunction.Arn
+  OtelCollectorEc2:
+    Description: "OpenTelemetry Collector EC2 Instance Data"
+    Value: !GetAtt OtelCollectorEc2.PublicDnsName
+  OtelCollectorEc2ConnectionString:
+    Description: "Template for SSH Connection Command for Otel Collector Instance"
+    Value: !Sub
+      - 'ssh -i <local-path-of-ssh-key-pem-file> ec2-user@${PublicDnsName}'
+      - PublicDnsName: !GetAtt OtelCollectorEc2.PublicDnsName

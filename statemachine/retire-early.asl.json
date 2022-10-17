@@ -10,7 +10,7 @@
           "ErrorEquals": [
             "States.TaskFailed"
           ],
-          "IntervalSeconds": 15,
+          "IntervalSeconds": 30,
           "MaxAttempts": 5,
           "BackoffRate": 1.5
         }
@@ -25,7 +25,7 @@
           "ErrorEquals": [
             "States.TaskFailed"
           ],
-          "IntervalSeconds": 15,
+          "IntervalSeconds": 30,
           "MaxAttempts": 5,
           "BackoffRate": 1.5
         }
@@ -40,7 +40,7 @@
           "ErrorEquals": [
             "States.TaskFailed"
           ],
-          "IntervalSeconds": 2,
+          "IntervalSeconds": 15,
           "MaxAttempts": 3,
           "BackoffRate": 1
         }
@@ -75,7 +75,7 @@
           "ErrorEquals": [
             "States.TaskFailed"
           ],
-          "IntervalSeconds": 20,
+          "IntervalSeconds": 15,
           "MaxAttempts": 5,
           "BackoffRate": 10
         }
