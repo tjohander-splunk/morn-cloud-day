@@ -29,10 +29,6 @@ def lambda_handler(event, context):
         buy_response = requests.post('https://paper-api.alpaca.markets/v2/orders', headers=headers,
                                      json={'symbol': stock_ranking[i], 'qty': 1, 'side': 'buy', 'type': 'market',
                                            'time_in_force': 'day'})
-        sell_reponse = requests.post('https://paper-api.alpaca.markets/v2/orders', headers=headers,
-                      json={'symbol': stock_ranking[i], 'qty': 1, 'side': 'sell', 'type': 'market',
-                            'time_in_force': 'day'})
-
 
     transaction_result = {
         "id": str(uuid.uuid4()),  # Unique ID for the transaction
