@@ -29,22 +29,23 @@
          11. Can provide an answer file
       8. Highlight the non-trivial amount of AWS infra that this application relies on
       8. Deploy it
-      9. Now we wait....... (~12-15 minutes)
+      9. Now we wait....... (~3-5 minutes)
    7.  Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
+   8. Time travel to `02-auto-instrumentation`
+   9. Deploy (~6 minutes)
 2. (Slide Deck) What is OpenTelemetry
    1. Why is it important
       1. Distributed Tracing
       1. Open Standards
       2. SDKs and an Aggregator ("Collector")
       2. Customized telemetry
-3. (Tom's Code) Time travel to `02-auto-instrumentation`
+3. (Tom's Code) Looking at `02-auto-instrumentation`
    2. Give a tour
       3. What did we add?
          4. Instrumentation Layer
             5. What does that include?
          6. Env Vars
-   7. Deploy the updates (See how easy this gets!)
-   8. (AWS Console) Exercise the app
+   8. (AWS Console) See that we're exercising the app in Step Functions
 4. (Tom's Code) Time travel to `03-manual-instrumentation`
    5. What did we add?
       6. Span Decoration
