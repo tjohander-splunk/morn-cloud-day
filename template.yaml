@@ -149,8 +149,8 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-                - 'lambda.amazonaws.com'
-                - 'states.amazonaws.com'
+                - 'lambda.amazonaws.com' # Explicit execution role for all four Lambdas
+                - 'states.amazonaws.com' # Allows the Step Functions to execute the Lambdas
             Action:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
