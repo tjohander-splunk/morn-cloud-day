@@ -11,16 +11,11 @@
            11. Integration
          12. ... others??
       5. Deploy it
-      6. Init Step Function
-      7. Explore Folder Structure
-         8. Lambda Code
-         9. Tests
-            10. Unit
-            11. Integration
-         12. `samconfig.toml`
-             13. Can supply Param values in here and never run `--guided` again
-      8. Deploy It
-      9. (AWS Console) Show it
+         12. Walkthough of `sam deploy --guided`
+         13. Review of deploy config file `samconfig.toml`
+           1. Can supply Param values in here and never run `--guided` again
+         14. Watch the deployment go down in real-time. (TAKES ~ 3:30)
+         9. (AWS Console) Show it
    6. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
       7. Explore Folder Structure
          8. Added in a unit test
@@ -28,12 +23,9 @@
          10. Added in a Step Function ASL definition as our mechanism to exercise the application for us
          11. Can provide an answer file
       8. Highlight the non-trivial amount of AWS infra that this application relies on
-      8. Deploy it
-      9. Now we wait....... (~3-5 minutes)
-   7.  Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
-   8. Time travel to `02-auto-instrumentation`
-   9. Deploy (~6 minutes)
-2. (Slide Deck) What is OpenTelemetry
+      8. Deploy it ((TAKES ~ 3:30))
+      7.  Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
+2. (Slide Deck) What is OpenTelemetry (I SORTA THINK I SHOULD JUST CHECKOUT AND DEPLOUY THE CODE FOR STAGE 2 AT THIS POIUNT)
    1. Why is it important
       1. Distributed Tracing
       1. Open Standards
@@ -45,7 +37,8 @@
          4. Instrumentation Layer
             5. What does that include?
          6. Env Vars
-   8. (AWS Console) See that we're exercising the app in Step Functions
+   7. Deploy the updates (See how easy this gets!)
+   8. (AWS Console) Exercise the app
 4. (Tom's Code) Time travel to `03-manual-instrumentation`
    5. What did we add?
       6. Span Decoration

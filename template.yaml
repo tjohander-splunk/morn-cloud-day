@@ -219,7 +219,9 @@ Resources:
   LambdaRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: stockTraderLambdaRole
+      RoleName: !Sub
+        - 'stockTraderLambdaRole-${stackName}'
+        - stackName: !Ref AWS::StackName
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -254,7 +256,6 @@ Resources:
             Enabled: False # This schedule is disabled by default to avoid incurring charges.
             Schedule: "rate(1 minute)"
       Role: !GetAtt LambdaRole.Arn
-
   TransactionTable:
     Type: AWS::Serverless::SimpleTable # More info about SimpleTable Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-simpletable.html
     Properties:

@@ -29,6 +29,7 @@ def lambda_handler(event, context):
                                      json={'symbol': stock_ranking[i], 'qty': 1, 'side': 'buy', 'type': 'market',
                                            'time_in_force': 'day'})
 
+
     transaction_result = {
         "id": str(uuid.uuid4()),  # Unique ID for the transaction
         "price": str(random.randint(1, 100)),  # Random Price of each share
