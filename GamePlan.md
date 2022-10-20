@@ -3,21 +3,21 @@
       1. Traditional Code Development Workflows; New Possibilities
    2. (Tom's Code) What does it do?
       1. `sam init` HelloWorld
-      3. Explore Folder structure
-         8. Lambda Code
-         9. Events
-         9. Tests
-           10. Unit
-           11. Integration
-         12. ... others??
-      4. Deploy it
-         11. Walkthrough of `sam build` -> `.aws-sam`
-         12. Walkthough of `sam deploy --guided --capabilities CAPABILITY_NAMED_IAM`
-         13. Review of deploy config file `samconfig.toml`
-         14. Can supply Param values in here and never run `--guided` again
-         15. Watch the deployment go down in real-time. **(TAKES ~ 3:30)**
-         16. (AWS Console) Show it
-   4. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
+      2. Explore Folder structure
+         1. Lambda Code
+         2. Events `sam local invoke "HelloWorldFunction" -e events/event.json`
+         3. Tests
+            1. Unit
+            2. Integration
+         4. ... others??
+      3. Deploy it
+         1. Walkthrough of `sam build` -> `.aws-sam`
+         2. Walkthough of `sam deploy --guided --capabilities CAPABILITY_NAMED_IAM`
+         3. Review of deploy config file `samconfig.toml`
+         4. Can supply Param values in here and never run `--guided` again
+         5. Watch the deployment go down in real-time. **(TAKES ~ 3:30)**
+         6. (AWS Console) Show it
+   3. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
       1. `cd ~/morn-cloud-day && git checkout 01-base-application`
          1. Explore Folder Structure
             1. Added in a unit test `cd watchlist_updater && pytest test_handler.py`
@@ -50,5 +50,7 @@
             8. At a minimum, you get more context in your spans
             9. At a maximum you can use extensive features of a full-fledged distributed tracing platform...like _this_
          10. Show a few cool things in APM
-      11. Telemetry mutation in the Collector
-          12. Show in our "back end"
+      7. Telemetry mutation in the Collector
+         1. Log in to EC2 Instance `ssh -i ~/.aws/tjohander-splunk-key-pair.pem ec2user@blah`
+         2. open up the `gateway-config.yaml`
+            12. Show in our "back end"
