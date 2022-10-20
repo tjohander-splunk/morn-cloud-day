@@ -12,7 +12,7 @@
          4. ... others??
       3. Deploy it
          1. Walkthrough of `sam build` -> `.aws-sam`
-         2. Walkthough of `sam deploy --guided --capabilities CAPABILITY_NAMED_IAM`
+         2. Walkthrough of `sam deploy --guided --capabilities CAPABILITY_NAMED_IAM`
          3. Review of deploy config file `samconfig.toml`
          4. Can supply Param values in here and never run `--guided` again
          5. Watch the deployment go down in real-time. **(TAKES ~ 3:30)**
