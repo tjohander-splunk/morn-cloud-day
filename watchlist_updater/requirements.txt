@@ -1,4 +1,5 @@
 pytest
 boto3
 requests
+requests-mock[fixture]
 moto[s3]
