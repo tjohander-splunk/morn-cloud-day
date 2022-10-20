@@ -19,18 +19,16 @@
          16. (AWS Console) Show it
    4. Introduce our "improved" Stock Trading app (Start at `01-Base-Application`)
       1. `cd ~/morn-cloud-day && git checkout 01-base-application`
-         7. Explore Folder Structure
-            8. Added in a unit test `cd watchlist_updater`, `pytest my-test.py`
-            9. Added in a VPC to which the Lambdas are attached.  Why?  Otel Collector
-            10. Added in a Step Function + ASL definition as our mechanism to exercise the application for us
-            11. Can provide an answer file
-         8. Highlight the non-trivial amount of AWS infra that this application relies on
-            1. Deploy it **(TAKES ~ 5 Minutes)** STOP AND PAUSE FOR QUESTIONS, COMMENTS GIFT CARD
-         9. Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
-         10. _I AM GOING TO SET US UP FOR OUR EVOLUTION AND DEPLOY QUITE A BIT MORE TO HELP US UNDERSTAND OTEL BETTER_
-             1. `git checkout 02-auto-instrumentation`
-             2. `sam build`
-             3. `sam deploy --config-file samconfig-base`
+         1. Explore Folder Structure
+            1. Added in a unit test `cd watchlist_updater && pytest test_handler.py`
+            2. Added in a VPC to which the Lambdas are attached.  Why?  Real World & Otel Collector
+            3. Added in a Step Function + ASL definition as our mechanism to exercise the application for us
+               1. Deploy it **(TAKES ~ 5 Minutes)** STOP AND PAUSE FOR QUESTIONS, COMMENTS GIFT CARD
+            5. Like Sony and Cher or Beyonce and Jay-Z, there's a "better together" story that needs to be told!
+            6. _I AM GOING TO SET US UP FOR OUR EVOLUTION AND DEPLOY QUITE A BIT MORE TO HELP US UNDERSTAND OTEL BETTER_
+               1. `git checkout 02-auto-instrumentation`
+               2. `sam build`
+               3. `sam deploy --config-file samconfig-base`
 2. (Slide Deck) What is OpenTelemetry (I SORTA THINK I SHOULD JUST CHECKOUT AND DEPLOUY THE CODE FOR STAGE 2 AT THIS POIUNT)
    1. Why is it important
       1. Distributed Tracing
