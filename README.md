@@ -53,26 +53,26 @@ Thank you SO much for following along, I'm excited to show some amazing technolo
             3. Since we added some params, we need to save answers: `sam deploy --guided`
             4. _TAKE IT AWAY MIMI_ **(10-15 mins)**
 2. (Slide Deck) What is OpenTelemetry?
-   1. Why is it important
+   1. Why is it important?
       1. Distributed Tracing
-      1. Open Standards
-      2. SDKs and an Aggregator ("Collector")
-      2. Customized telemetry
+      2. Open Standards
+      3. SDKs and an Aggregator ("Collector")
+      4. Customized telemetry
 3. (Tom's Code) Time travel to `02-auto-instrumentation`
-   2. Give a tour
-      3. What did we add?
-         4. Instrumentation Layer
-            5. What does that include?
-         6. Env Vars
-   8. (AWS Console) Exercise the app
+   1. Give a tour
+      1. What did we add?
+         1. Instrumentation Layer
+            1. What does that include?
+         2. Env Vars
+   2. (AWS Console) Exercise the app
 4. (Tom's Code) Time travel to `03-manual-instrumentation`
-   5. What did we add?
-      6. Span Decoration
-         7. What does that do?
-            8. At a minimum, you get more context in your spans
-            9. At a maximum you can use extensive features of a full-fledged distributed tracing platform...like _this_
-         10. Show a few cool things in APM
-      7. Telemetry mutation in the Collector
+   1. What did we add?
+      1. Span Decoration
+         1. What does that do?
+            1. At a minimum, you get more context in your spans
+            2. At a maximum you can use extensive features of a full-fledged distributed tracing platform...like _this_
+         2. Show a few cool things in APM
+      2. Telemetry mutation in the Collector
          1. Log in to EC2 Instance `ssh -i ~/.aws/tjohander-splunk-key-pair.pem ec2user@blah`
          2. open up the `gateway-config.yaml`
          3. ```
