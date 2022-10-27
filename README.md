@@ -8,7 +8,7 @@ In the meantime, these steps were my own personal workflow notes.  They may only
 
 Thank you SO much for following along, I'm excited to show some amazing technology :smile:
 
-> **_NOTE:_**  The main content of each "stage" of the presentation are in the non-main branches.  `main` does not contain any demo code.
+> **_NOTE:_**  The main content of each "stage" of the presentation are in the non-main branches (`01-xxx, 02-xxx, 03-xxx`).  `main` does not contain any demo code.
 
 1. (Slide Deck) What is SAM?
    1. Why is it important
